@@ -180,7 +180,7 @@ public class Main {
 		System.out.println("  --no-preserve-builtins  rename builtins");
 		System.out.println("  --preserve-imports      don't rename imports (default)");
 		System.out.println("  --keep-temp             keep temp files");
-		System.out.println("  --verbose               verbose output");
+		//System.out.println("  --verbose               verbose output");
 		System.out.println("  --rename-functions      rename functions");
 		System.out.println("  --rename-classes        rename classes");
 		System.out.println("  --help, -h              show help");
