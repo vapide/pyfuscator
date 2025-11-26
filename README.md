@@ -66,8 +66,6 @@ Pyfuscator is a tool for obfuscating Python code. It renames the variables, func
 
 - `--keep-temp`: Keeps temporary files.
 
-- `--verbose`: Enables verbose output.
-
 - `--rename-functions`: Renames functions.
 
 - `--rename-classes`: Renames classes.
