@@ -148,7 +148,7 @@ public class Main {
 		JsonASTWriter writer = new JsonASTWriter();
 		writer.writeToFile(transformedNode, transformedJsonPath);
 
-		String compilerPath = RunPython.getAbsouteCompilerPath();
+		String compilerPath = RunPython.getAbsoluteCompilerPath();
 		RunPython.Result compileResult = python.run(compilerPath, transformedJsonPath, absoluteOutputPath);
 		// same thing but for compiler
 		if (compileResult.exitCode() != 0) {
