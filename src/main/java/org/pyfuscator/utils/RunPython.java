@@ -23,7 +23,7 @@ public class RunPython {
 		return extractResourceToTemp("python/parser.py");
 	}
 
-	public static String getAbsouteCompilerPath() {
+	public static String getAbsoluteCompilerPath() {
 		return extractResourceToTemp("python/compiler.py");
 	}
 
