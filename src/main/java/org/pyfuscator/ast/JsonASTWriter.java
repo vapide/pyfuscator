@@ -137,7 +137,7 @@ public class JsonASTWriter {
 				"comparators".equals(fieldName) ||
 				"kwonlyargs".equals(fieldName) ||
 				"names".equals(fieldName) ||
-				"handlers".equals(fieldName) ||;
+				"handlers".equals(fieldName);
 	}
 
 	// dotted key is like ctx.lineno or ctx.col_offset (https://medium.com/@wshanshan/intro-to-python-ast-module-bbd22cd505f7)
