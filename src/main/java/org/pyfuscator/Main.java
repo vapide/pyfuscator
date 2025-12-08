@@ -103,6 +103,10 @@ public class Main {
 					config.setObfuscateStrings(true);
 					break;
 
+                case "--remove-docs":
+                    config.setRemoveDocs(true);
+                    break;
+
 				case "--help":
 				case "-h":
 					printUsage();
@@ -129,7 +133,7 @@ public class Main {
 		String absoluteOutputPath = outputFile.getAbsolutePath();
 
 		String parserPath = RunPython.getAbsoluteParserPath();
-		String tempJsonPath = absoluteInputPath + ".temp.json";
+		String tempJsonPath = absoluteInputPath + "-temp.json";
 
 		// run the parser and check for errors
 		RunPython.Result parseResult = python.run(parserPath, absoluteInputPath, tempJsonPath);
@@ -144,7 +148,7 @@ public class Main {
 		transformer.addPass(new VariableRenamePass(scopeManager, nameGenerator, config));
 		Node transformedNode = transformer.transform(rootNode);
 
-		String transformedJsonPath = absoluteOutputPath + ".temp.json";
+		String transformedJsonPath = absoluteOutputPath + "-temp.json";
 		JsonASTWriter writer = new JsonASTWriter();
 		writer.writeToFile(transformedNode, transformedJsonPath);
 
@@ -183,6 +187,7 @@ public class Main {
 		//System.out.println("  --verbose               verbose output");
 		System.out.println("  --rename-functions      rename functions");
 		System.out.println("  --rename-classes        rename classes");
+        System.out.println("  --remove-docs           remove docstrings");
 		System.out.println("  --help, -h              show help");
 	}
 }

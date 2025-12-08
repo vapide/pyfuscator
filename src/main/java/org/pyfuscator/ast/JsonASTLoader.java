@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JsonASTLoader {
 	private final ObjectMapper mapper = new ObjectMapper();
@@ -48,14 +50,39 @@ public class JsonASTLoader {
 					if (fieldValue.isEmpty()) {
 						resultNode.addField("_empty_array_" + fieldName, true);
 					} else {
-						fieldValue.elements().forEachRemaining(rawChild -> {
-							Node childNode = convertNode(rawChild);
-							if (childNode != null) {
-								resultNode.addChild(childNode);
-								childNode.addField("_parent_field", fieldName);
-							}
-						});
-					}
+
+                        JsonNode firstElement = fieldValue.get(0);
+                        boolean isPrimitiveArray = !firstElement.isObject() || !firstElement.has("type"); // isobject or has type indicated a primiteive array
+
+                        if (isPrimitiveArray) {
+                            // array of primitive values for example, names in global/nonlocal
+                            List<Object> primitiveList = new ArrayList<>();
+
+                            fieldValue.elements().forEachRemaining(element -> {
+                                if (element.isTextual()) { // if is plain text
+                                    primitiveList.add(element.asText()); // add to primitive list
+                                } else if (element.isNumber()) {
+                                    primitiveList.add(element.numberValue());
+                                } else if (element.isBoolean()) {
+                                    primitiveList.add(element.asBoolean());
+                                } else if (element.isNull()) {
+                                    primitiveList.add(null);
+                                } else {
+                                    primitiveList.add(element.toString()); // otherwise just add as a string
+                                }
+                            });
+                            resultNode.addField(fieldName, primitiveList);
+                        } else {
+
+                            fieldValue.elements().forEachRemaining(rawChild -> {
+                                Node childNode = convertNode(rawChild);
+                                if (childNode != null) {
+                                    resultNode.addChild(childNode);
+                                    childNode.addField("_parent_field", fieldName);
+                                }
+                            });
+                        }
+                    }
 				} else if (fieldValue.isObject() && fieldValue.has("type")) {
 					// ctx (context) nodes get flattened to avoid extra nesting
 					if ("ctx".equals(fieldName)) {

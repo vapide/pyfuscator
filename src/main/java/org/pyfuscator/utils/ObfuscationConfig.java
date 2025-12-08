@@ -16,6 +16,7 @@ public class ObfuscationConfig {
 	private boolean foldConstants = false;
 	private boolean removeDeadCode = false;
 	private boolean obfuscateStrings = false;
+    private boolean removeDocs = false;
 
 	public static ObfuscationConfig createDefault() {
 		return new ObfuscationConfig();
@@ -133,6 +134,9 @@ public class ObfuscationConfig {
 		this.obfuscateStrings = obfuscateStrings;
 	}
 
+    public boolean isRemoveDocs() { return removeDocs; }
+
+    public void setRemoveDocs(boolean removeDocs) { this.removeDocs = removeDocs; }
 	// validation method
 	public void validate() {
 		if (inputFile == null || inputFile.isEmpty()) {

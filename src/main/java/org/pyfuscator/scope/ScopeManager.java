@@ -2,11 +2,15 @@ package org.pyfuscator.scope;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class ScopeManager {
 	//deque used as stack for scopes
 	private final Deque<Scope> stack = new ArrayDeque<>();
+	// global registry to track all function renamings across all scopes
+	private final Map<String, String> globalFunctionRegistry = new HashMap<>();
 
 	public ScopeManager() {
 		stack.push(new Scope());
@@ -77,6 +81,21 @@ public class ScopeManager {
 
 	public int depth() {
 		return stack.size();
+	}
+
+	// register a function rename globally (to access attributes across scopes)
+	public void registerFunctionRename(String original, String obfuscated) {
+		globalFunctionRegistry.put(original, obfuscated);
+	}
+
+	// look up the function for a rename from the global registry
+	public String resolveFunctionGlobally(String original) {
+		return globalFunctionRegistry.getOrDefault(original, original);
+	}
+
+	// check if the function is registered/exists
+	public boolean isFunctionRegistered(String original) {
+		return globalFunctionRegistry.containsKey(original);
 	}
 
 }
